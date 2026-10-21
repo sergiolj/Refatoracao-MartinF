@@ -10,15 +10,15 @@ function statement(invoice, plays) {
 
   for (let perf of invoice.performances) {
     const play = plays[perf.playID];
-    let result = 0;
-    result = calculateAmount(perf, play);
+    let thisAmount = 0;
+    thisAmount = calculateAmount(perf, play);
 
     benefitsProgram(perf, play);
 
 
     // exibe a linha para esta requisição
-    result += ` ${play.name}: ${format(result / 100)} (${perf.audience} seats)\n`;
-    totalAmount += result;
+    result += ` ${play.name}: ${format(thisAmount / 100)} (${perf.audience} seats)\n`;
+    totalAmount += thisAmount;
   }
   
   result += `Amount owed is ${format(totalAmount / 100)}\n`;
