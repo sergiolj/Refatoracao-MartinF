@@ -48,14 +48,11 @@ function statement(invoice, plays) {
   }
 
   function benefitsProgram(aPerformance) {
-    // soma créditos por volume
     volumeCredits += Math.max(aPerformance.audience - 30, 0);
-    // soma um crédito extra para cada dez espectadores de comédia
     if ("comedy" === getPlayFrom(aPerformance).type) volumeCredits += Math.floor(aPerformance.audience / 5);
   }
 
   function addPerformanceToInvoice(aPerformance, thisAmount) {
-    // exibe a linha para esta requisição
     result += ` ${getPlayFrom(aPerformance).name}: ${format(thisAmount / 100)} (${aPerformance.audience} seats)\n`;
   }
 
