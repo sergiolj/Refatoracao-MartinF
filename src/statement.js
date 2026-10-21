@@ -13,28 +13,14 @@ function statement(invoice, plays) {
     const play = plays[perf.playID];
     let thisAmount = 0;
     thisAmount = calculateAmountBill(perf, play);
-
     benefitsProgram(perf, play);
-
-    // exibe a linha para esta requisição
-    result += ` ${play.name}: ${format(thisAmount / 100)} (${perf.audience} seats)\n`;
+    addPerformanceToInvoice(perf, play, thisAmount);
     totalAmount += thisAmount;
   }
 
-  formatAndPrintResult();
+  finishInvoiceAndPrintResult();
   return result;
 
-  function formatAndPrintResult(){
-    result += `Amount owed is ${format(totalAmount / 100)}\n`;
-    result += `You earned ${volumeCredits} credits\n`;
-  }
-
-  function benefitsProgram(perf, play) {
-    // soma créditos por volume
-    volumeCredits += Math.max(perf.audience - 30, 0);
-    // soma um crédito extra para cada dez espectadores de comédia
-    if ("comedy" === play.type) volumeCredits += Math.floor(perf.audience / 5);
-  }
 
   function calculateAmountBill(perf, play) {
     let unityAmount = 0;
@@ -58,9 +44,23 @@ function statement(invoice, plays) {
     return unityAmount;
   }
 
+  function benefitsProgram(perf, play) {
+    // soma créditos por volume
+    volumeCredits += Math.max(perf.audience - 30, 0);
+    // soma um crédito extra para cada dez espectadores de comédia
+    if ("comedy" === play.type) volumeCredits += Math.floor(perf.audience / 5);
+  }
+
+  function addPerformanceToInvoice(perf, play, thisAmount) {
+    // exibe a linha para esta requisição
+    result += ` ${play.name}: ${format(thisAmount / 100)} (${perf.audience} seats)\n`;
+  }
+
+  function finishInvoiceAndPrintResult(){
+    result += `Amount owed is ${format(totalAmount / 100)}\n`;
+    result += `You earned ${volumeCredits} credits\n`;
+  }
+
+
 }
-
-
-
-
 module.exports = { statement };
