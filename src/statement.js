@@ -10,7 +10,7 @@ function statement(invoice, plays) {
   }).format;
 
   for (let aPerformance of invoice.performances) {
-    const play = plays[aPerformance.playID];
+    const play = getPlayFrom(aPerformance);
     let thisAmount = 0;
     thisAmount = calculateAmountBill(aPerformance, play);
     benefitsProgram(aPerformance, play);
@@ -21,6 +21,9 @@ function statement(invoice, plays) {
   finishInvoiceAndPrintResult();
   return result;
 
+  function getPlayFrom(aPerformance) {
+    return plays[aPerformance.playID];
+  }
 
   function calculateAmountBill(perf, play) {
     let unityAmount = 0;
