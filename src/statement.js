@@ -9,12 +9,12 @@ function statement(invoice, plays) {
     minimumFractionDigits: 2,
   }).format;
 
-  for (let perf of invoice.performances) {
-    const play = plays[perf.playID];
+  for (let aPerformance of invoice.performances) {
+    const play = plays[aPerformance.playID];
     let thisAmount = 0;
-    thisAmount = calculateAmountBill(perf, play);
-    benefitsProgram(perf, play);
-    addPerformanceToInvoice(perf, play, thisAmount);
+    thisAmount = calculateAmountBill(aPerformance, play);
+    benefitsProgram(aPerformance, play);
+    addPerformanceToInvoice(aPerformance, play, thisAmount);
     totalAmount += thisAmount;
   }
 
