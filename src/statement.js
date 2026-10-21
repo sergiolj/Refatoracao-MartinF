@@ -16,46 +16,47 @@ function statement(invoice, plays) {
     addPerformanceToInvoice(aPerformance, thisAmount);
     totalAmount += thisAmount;
   }
-
   finishInvoiceAndPrintResult();
+
   return result;
+
 
   function getPlayFrom(aPerformance) {
     return plays[aPerformance.playID];
   }
 
-  function calculateAmountBill(perf) {
+  function calculateAmountBill(aPerformance) {
     let unityAmount = 0;
-    switch (getPlayFrom(perf).type) {
+    switch (getPlayFrom(aPerformance).type) {
       case "tragedy":
         unityAmount = 40000;
-        if (perf.audience > 30) {
-          unityAmount += 1000 * (perf.audience - 30);
+        if (aPerformance.audience > 30) {
+          unityAmount += 1000 * (aPerformance.audience - 30);
         }
         break;
       case "comedy":
         unityAmount = 30000;
-        if (perf.audience > 20) {
-          unityAmount += 10000 + 500 * (perf.audience - 20);
+        if (aPerformance.audience > 20) {
+          unityAmount += 10000 + 500 * (aPerformance.audience - 20);
         }
-        unityAmount += 300 * perf.audience;
+        unityAmount += 300 * aPerformance.audience;
         break;
       default:
-        throw new Error(`unknown type: ${getPlayFrom(perf).type}`);
+        throw new Error(`unknown type: ${getPlayFrom(aPerformance).type}`);
     }
     return unityAmount;
   }
 
-  function benefitsProgram(perf) {
+  function benefitsProgram(aPerformance) {
     // soma créditos por volume
-    volumeCredits += Math.max(perf.audience - 30, 0);
+    volumeCredits += Math.max(aPerformance.audience - 30, 0);
     // soma um crédito extra para cada dez espectadores de comédia
-    if ("comedy" === getPlayFrom(perf).type) volumeCredits += Math.floor(perf.audience / 5);
+    if ("comedy" === getPlayFrom(aPerformance).type) volumeCredits += Math.floor(aPerformance.audience / 5);
   }
 
-  function addPerformanceToInvoice(perf, thisAmount) {
+  function addPerformanceToInvoice(aPerformance, thisAmount) {
     // exibe a linha para esta requisição
-    result += ` ${getPlayFrom(perf).name}: ${format(thisAmount / 100)} (${perf.audience} seats)\n`;
+    result += ` ${getPlayFrom(aPerformance).name}: ${format(thisAmount / 100)} (${aPerformance.audience} seats)\n`;
   }
 
   function finishInvoiceAndPrintResult(){
