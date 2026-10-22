@@ -4,7 +4,7 @@ obrigatória.
 
 Não use pontos finais de frase
 Não use maiúsculas no início de frase
-Não use espaços entre o tipo e o escopo refact(função)
+Não use espaços entre o tipo e o escopo refactor(função)
 Use linhas em branco entre as partes
 
 <tipo>(<escopo opcional>): <descrição no imperativo>
