@@ -1,9 +1,12 @@
 function statement(invoice, plays) {
   let totalAmount = 0;
   let volumeCredits = 0;
-  let result = `Statement for ${invoice.customer}\n`;
+  let result = getInvoiceHead();
   const format = getFormat();
 
+  function getInvoiceHead() {
+    return `Statement for ${invoice.customer}\n`;
+  }
 
   function getFormat() {
     return new Intl.NumberFormat("en-US", {
