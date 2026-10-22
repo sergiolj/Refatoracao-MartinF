@@ -10,9 +10,8 @@ function statement(invoice, plays) {
   }).format;
 
   for (let aPerformance of invoice.performances) {
-    let thisAmount = 0;
-    thisAmount = calculateAmountBill(aPerformance);
-    benefitsProgram(aPerformance);
+    let thisAmount = calculateAmountForEach(aPerformance);
+    saveCreditsForBenefitsProgram(aPerformance);
     addPerformanceToInvoice(aPerformance, thisAmount);
     totalAmount += thisAmount;
   }
@@ -25,7 +24,7 @@ function statement(invoice, plays) {
     return plays[aPerformance.playID];
   }
 
-  function calculateAmountBill(aPerformance) {
+  function calculateAmountForEach(aPerformance) {
     let unityAmount = 0;
     switch (getPlayFrom(aPerformance).type) {
       case "tragedy":
@@ -47,7 +46,7 @@ function statement(invoice, plays) {
     return unityAmount;
   }
 
-  function benefitsProgram(aPerformance) {
+  function saveCreditsForBenefitsProgram(aPerformance) {
     volumeCredits += Math.max(aPerformance.audience - 30, 0);
     if ("comedy" === getPlayFrom(aPerformance).type) volumeCredits += Math.floor(aPerformance.audience / 5);
   }
