@@ -1,10 +1,10 @@
 function statement(invoice, plays) {
   let totalAmount = 0;
   let volumeCredits = 0;
-  let result = getInvoiceHead();
+  let result = addInvoiceHead();
   const format = getFormat();
 
-  function getInvoiceHead() {
+  function addInvoiceHead() {
     return `Statement for ${invoice.customer}\n`;
   }
 
