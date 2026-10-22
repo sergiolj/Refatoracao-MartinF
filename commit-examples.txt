@@ -1,0 +1,41 @@
+1. Extract Function (Extrair Função)
+refactor(statement): extract amount calculation for a single performance
+
+- Technique: Extract Function
+- Extracted the switch-case block into a new 'amountFor(aPerformance)' function.
+- Reduces the cognitive load of the main loop.
+
+
+2. Replace Temp with Query (Substituir Variável Temporária por Consulta)
+refactor(statement): replace play temporary variable with a query function
+
+- Technique: Replace Temp with Query (and Extract Function)
+- Created 'playFor(aPerformance)' to resolve the play lookup.
+- Eliminated the local 'play' variable, reducing parameter passing for future extractions.
+
+3. Extract Variable (Extrair Variável)
+refactor(invoice): extract volume credits calculation
+
+- Technique: Extract Variable
+- Extracted 'Math.max(perf.audience - 30, 0)' into a 'volumeCredits' variable.
+- Makes the mathematical formula easier to read and debug.
+
+4. Decompose Conditional (Decompor Condicional)
+refactor(pricing): decompose discount rules for summer season
+
+- Technique: Decompose Conditional
+- Extracted the date check into 'isSummer()'.
+- Extracted the branches into 'summerCharge()' and 'regularCharge()'.
+
+5. Change Function Declaration (Mudar Declaração de Função)
+refactor(statement): rename variable to improve semantic clarity
+
+- Technique: Change Function Declaration / Rename Variable
+- Renamed 'perf' loop variable to 'aPerformance' to follow Fowler's naming convention.
+
+6. Inline Variable (Incorporar Variável)
+refactor(statement): inline thisAmount temporary variable
+
+- Technique: Inline Variable
+- Removed 'thisAmount' since it was only assigned once from 'amountFor()'.
+- The return value of 'amountFor()' is now used directly in the accumulator.
