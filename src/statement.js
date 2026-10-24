@@ -12,7 +12,7 @@ function statement(invoice, plays) {
       style: "currency",
       currency: "USD",
       minimumFractionDigits: 2,
-    }).format(aNumber);
+    }).format(aNumber / 100);
   }
 
   for (let aPerformance of invoice.performances) {
@@ -58,11 +58,11 @@ function statement(invoice, plays) {
   }
 
   function addPerformanceToInvoice(aPerformance, thisAmount) {
-    result += ` ${getPlayFrom(aPerformance).name}: ${toUSD(thisAmount / 100)} (${aPerformance.audience} seats)\n`;
+    result += ` ${getPlayFrom(aPerformance).name}: ${toUSD(thisAmount)} (${aPerformance.audience} seats)\n`;
   }
 
   function finishInvoiceAndPrintResult(){
-    result += `Amount owed is ${toUSD(totalAmount / 100)}\n`;
+    result += `Amount owed is ${toUSD(totalAmount)}\n`;
     result += `You earned ${volumeCredits} credits\n`;
   }
 
