@@ -2,18 +2,17 @@ function statement(invoice, plays) {
   let totalAmount = 0;
   let volumeCredits = 0;
   let result = addInvoiceHead();
-  const format = getFormat();
 
   function addInvoiceHead() {
     return `Statement for ${invoice.customer}\n`;
   }
 
-  function getFormat() {
+  function numberToUSD(aNumber) {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
       minimumFractionDigits: 2,
-    }).format;
+    }).format(aNumber);
   }
 
   for (let aPerformance of invoice.performances) {
@@ -59,11 +58,11 @@ function statement(invoice, plays) {
   }
 
   function addPerformanceToInvoice(aPerformance, thisAmount) {
-    result += ` ${getPlayFrom(aPerformance).name}: ${format(thisAmount / 100)} (${aPerformance.audience} seats)\n`;
+    result += ` ${getPlayFrom(aPerformance).name}: ${numberToUSD(thisAmount / 100)} (${aPerformance.audience} seats)\n`;
   }
 
   function finishInvoiceAndPrintResult(){
-    result += `Amount owed is ${format(totalAmount / 100)}\n`;
+    result += `Amount owed is ${numberToUSD(totalAmount / 100)}\n`;
     result += `You earned ${volumeCredits} credits\n`;
   }
 
