@@ -7,24 +7,19 @@ function statement(invoice, plays) {
     return `Statement for ${invoice.customer}\n`;
   }
 
-  function toUSD(aNumber) {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 2,
-    }).format(aNumber / 100);
-  }
-
   for (let aPerformance of invoice.performances) {
     let thisAmount = calculateAmountForEach(aPerformance);
-    saveCreditsForBenefitsProgram(aPerformance);
     addPerformanceToInvoice(aPerformance, thisAmount);
     totalAmount += thisAmount;
   }
+
+  for (let aPerformance of invoice.performances) {
+    volumeCredits += saveCreditsForBenefitsProgram(aPerformance);
+  }
+
   finishInvoiceAndPrintResult();
 
   return result;
-
 
   function getPlayFrom(aPerformance) {
     return plays[aPerformance.playID];
@@ -53,12 +48,22 @@ function statement(invoice, plays) {
   }
 
   function saveCreditsForBenefitsProgram(aPerformance) {
+    let volumeCredits = 0;
     volumeCredits += Math.max(aPerformance.audience - 30, 0);
     if ("comedy" === getPlayFrom(aPerformance).type) volumeCredits += Math.floor(aPerformance.audience / 5);
+    return volumeCredits;
   }
 
   function addPerformanceToInvoice(aPerformance, thisAmount) {
     result += ` ${getPlayFrom(aPerformance).name}: ${toUSD(thisAmount)} (${aPerformance.audience} seats)\n`;
+  }
+
+  function toUSD(aNumber) {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+    }).format(aNumber / 100);
   }
 
   function finishInvoiceAndPrintResult(){
