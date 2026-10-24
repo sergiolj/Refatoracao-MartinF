@@ -1,6 +1,5 @@
 function statement(invoice, plays) {
   let totalAmount = 0;
-  let volumeCredits = 0;
   let result = addInvoiceHead();
 
   function addInvoiceHead() {
@@ -13,6 +12,7 @@ function statement(invoice, plays) {
     totalAmount += thisAmount;
   }
 
+  let volumeCredits = 0;
   for (let aPerformance of invoice.performances) {
     volumeCredits += saveCreditsForBenefitsProgram(aPerformance);
   }
