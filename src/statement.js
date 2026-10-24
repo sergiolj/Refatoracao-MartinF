@@ -2,27 +2,19 @@ function statement(invoice, plays) {
   let totalAmount = 0;
   let result = addInvoiceHead();
 
-  function addInvoiceHead() {
-    return `Statement for ${invoice.customer}\n`;
-  }
-
   for (let aPerformance of invoice.performances) {
     let thisAmount = calculateAmountForEach(aPerformance);
     addPerformanceToInvoice(aPerformance, thisAmount);
     totalAmount += thisAmount;
   }
 
-  let volumeCredits = 0;
-  for (let aPerformance of invoice.performances) {
-    volumeCredits += saveCreditsForBenefitsProgram(aPerformance);
-  }
-
+  let volumeCredits = totalVolumeCredits();
   finishInvoiceAndPrintResult();
 
   return result;
 
-  function getPlayFrom(aPerformance) {
-    return plays[aPerformance.playID];
+  function addInvoiceHead() {
+    return `Statement for ${invoice.customer}\n`;
   }
 
   function calculateAmountForEach(aPerformance) {
@@ -47,11 +39,8 @@ function statement(invoice, plays) {
     return unityAmount;
   }
 
-  function saveCreditsForBenefitsProgram(aPerformance) {
-    let volumeCredits = 0;
-    volumeCredits += Math.max(aPerformance.audience - 30, 0);
-    if ("comedy" === getPlayFrom(aPerformance).type) volumeCredits += Math.floor(aPerformance.audience / 5);
-    return volumeCredits;
+  function getPlayFrom(aPerformance) {
+    return plays[aPerformance.playID];
   }
 
   function addPerformanceToInvoice(aPerformance, thisAmount) {
@@ -66,11 +55,25 @@ function statement(invoice, plays) {
     }).format(aNumber / 100);
   }
 
+  function totalVolumeCredits() {
+    let volumeCredits = 0;
+    for (let aPerformance of invoice.performances) {
+      volumeCredits += saveCreditsForBenefitsProgram(aPerformance);
+    }
+    return volumeCredits;
+  }
+
+  function saveCreditsForBenefitsProgram(aPerformance) {
+    let volumeCredits = 0;
+    volumeCredits += Math.max(aPerformance.audience - 30, 0);
+    if ("comedy" === getPlayFrom(aPerformance).type) volumeCredits += Math.floor(aPerformance.audience / 5);
+    return volumeCredits;
+  }
+
   function finishInvoiceAndPrintResult(){
     result += `Amount owed is ${toUSD(totalAmount)}\n`;
     result += `You earned ${volumeCredits} credits\n`;
   }
-
 
 }
 module.exports = { statement };
