@@ -7,7 +7,7 @@ function statement(invoice, plays) {
     return `Statement for ${invoice.customer}\n`;
   }
 
-  function numberToUSD(aNumber) {
+  function toUSD(aNumber) {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
@@ -58,11 +58,11 @@ function statement(invoice, plays) {
   }
 
   function addPerformanceToInvoice(aPerformance, thisAmount) {
-    result += ` ${getPlayFrom(aPerformance).name}: ${numberToUSD(thisAmount / 100)} (${aPerformance.audience} seats)\n`;
+    result += ` ${getPlayFrom(aPerformance).name}: ${toUSD(thisAmount / 100)} (${aPerformance.audience} seats)\n`;
   }
 
   function finishInvoiceAndPrintResult(){
-    result += `Amount owed is ${numberToUSD(totalAmount / 100)}\n`;
+    result += `Amount owed is ${toUSD(totalAmount / 100)}\n`;
     result += `You earned ${volumeCredits} credits\n`;
   }
 
