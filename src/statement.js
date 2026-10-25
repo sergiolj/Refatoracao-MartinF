@@ -1,15 +1,12 @@
 function statement(invoice, plays) {
   let result = addInvoiceHead();
   totalAmount();
-
-
   for (let aPerformance of invoice.performances) {
     let thisAmount = calculateAmountForEach(aPerformance);
     addPerformanceToInvoice(aPerformance, thisAmount);
   }
   volumeCredits();
-  finishInvoiceAndPrintResult();
-
+  addInvoiceFooter();
   return result;
 
   function addInvoiceHead() {
@@ -77,7 +74,7 @@ function statement(invoice, plays) {
     return volumeCredits;
   }
 
-  function finishInvoiceAndPrintResult(){
+  function addInvoiceFooter() {
     result += `Amount owed is ${toUSD(totalAmount())}\n`;
     result += `You earned ${volumeCredits()} credits\n`;
   }
