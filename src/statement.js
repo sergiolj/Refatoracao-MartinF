@@ -7,7 +7,7 @@ function statement(invoice, plays) {
     let thisAmount = calculateAmountForEach(aPerformance);
     addPerformanceToInvoice(aPerformance, thisAmount);
   }
-  let volumeCredits = totalVolumeCredits();
+  volumeCredits();
   finishInvoiceAndPrintResult();
 
   return result;
@@ -62,7 +62,7 @@ function statement(invoice, plays) {
     }).format(aNumber / 100);
   }
 
-  function totalVolumeCredits() {
+  function volumeCredits() {
     let volumeCredits = 0;
     for (let aPerformance of invoice.performances) {
       volumeCredits += calculateCreditsForBenefitsProgram(aPerformance);
@@ -79,7 +79,7 @@ function statement(invoice, plays) {
 
   function finishInvoiceAndPrintResult(){
     result += `Amount owed is ${toUSD(totalAmount())}\n`;
-    result += `You earned ${volumeCredits} credits\n`;
+    result += `You earned ${volumeCredits()} credits\n`;
   }
 
 }
