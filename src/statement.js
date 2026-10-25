@@ -1,4 +1,7 @@
 function statement(invoice, plays) {
+  return renderPlaiText(invoice, plays);
+}
+function renderPlaiText(invoice, plays) {
   let result = addInvoiceHead();
   totalAmount();
 
@@ -79,6 +82,5 @@ function statement(invoice, plays) {
     result += `Amount owed is ${toUSD(totalAmount())}\n`;
     result += `You earned ${volumeCredits()} credits\n`;
   }
-
 }
 module.exports = { statement };
