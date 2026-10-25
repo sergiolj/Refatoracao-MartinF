@@ -6,11 +6,18 @@ function statement(invoice, plays) {
   function enrichPerformance(aPerformance) {
     const result = Object.assign({}, aPerformance);
     result.play = getPlayFrom(aPerformance);
+    result.amount = amountFor(aPerformance);
     return result;
   }
+
   function getPlayFrom(aPerformance) {
     return plays[aPerformance.playID];
   }
+
+  function amountFor(aPerformance) {
+
+  }
+
   return renderPlaiText(statementData, plays);
 }
 
@@ -40,7 +47,7 @@ function renderPlaiText(data, plays) {
 
   function calculateAmountForEach(aPerformance) {
     let unityAmount = 0;
-    switch (getPlayFrom(aPerformance).type) {
+    switch (aPerformance.play.type) {
       case "tragedy":
         unityAmount = 40000;
         if (aPerformance.audience > 30) {
@@ -55,17 +62,13 @@ function renderPlaiText(data, plays) {
         unityAmount += 300 * aPerformance.audience;
         break;
       default:
-        throw new Error(`unknown type: ${getPlayFrom(aPerformance).type}`);
+        throw new Error(`unknown type: ${aPerformance.play.type}`);
     }
     return unityAmount;
   }
 
-  function getPlayFrom(aPerformance) {
-    return plays[aPerformance.playID];
-  }
-
   function addPerformanceToInvoice(aPerformance, thisAmount) {
-    result += ` ${getPlayFrom(aPerformance).name}: ${toUSD(thisAmount)} (${aPerformance.audience} seats)\n`;
+    result += ` ${aPerformance.play.name}: ${toUSD(thisAmount)} (${aPerformance.audience} seats)\n`;
   }
 
   function toUSD(aNumber) {
@@ -87,7 +90,7 @@ function renderPlaiText(data, plays) {
   function calculateCreditsForBenefitsProgram(aPerformance) {
     let volumeCredits = 0;
     volumeCredits += Math.max(aPerformance.audience - 30, 0);
-    if ("comedy" === getPlayFrom(aPerformance).type) volumeCredits += Math.floor(aPerformance.audience / 5);
+    if ("comedy" === aPerformance.play.type) volumeCredits += Math.floor(aPerformance.audience / 5);
     return volumeCredits;
   }
 
