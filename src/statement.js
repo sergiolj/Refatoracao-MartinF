@@ -1,11 +1,18 @@
 function statement(invoice, plays) {
-  let totalAmount = 0;
+  let totalAmount = calcTotalAmount();
   let result = addInvoiceHead();
 
   for (let aPerformance of invoice.performances) {
     let thisAmount = calculateAmountForEach(aPerformance);
     addPerformanceToInvoice(aPerformance, thisAmount);
-    totalAmount += thisAmount;
+  }
+
+  function calcTotalAmount() {
+    let totalAmount = 0;
+    for (let aPerformance of invoice.performances) {
+      totalAmount += calculateAmountForEach(aPerformance);
+    }
+    return totalAmount;
   }
 
   let volumeCredits = totalVolumeCredits();
@@ -58,12 +65,12 @@ function statement(invoice, plays) {
   function totalVolumeCredits() {
     let volumeCredits = 0;
     for (let aPerformance of invoice.performances) {
-      volumeCredits += saveCreditsForBenefitsProgram(aPerformance);
+      volumeCredits += calculateCreditsForBenefitsProgram(aPerformance);
     }
     return volumeCredits;
   }
 
-  function saveCreditsForBenefitsProgram(aPerformance) {
+  function calculateCreditsForBenefitsProgram(aPerformance) {
     let volumeCredits = 0;
     volumeCredits += Math.max(aPerformance.audience - 30, 0);
     if ("comedy" === getPlayFrom(aPerformance).type) volumeCredits += Math.floor(aPerformance.audience / 5);
