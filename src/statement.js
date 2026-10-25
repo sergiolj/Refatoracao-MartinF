@@ -1,6 +1,7 @@
 function statement(invoice, plays) {
   let result = addInvoiceHead();
   totalAmount();
+
   for (let aPerformance of invoice.performances) {
     let thisAmount = calculateAmountForEach(aPerformance);
     addPerformanceToInvoice(aPerformance, thisAmount);
