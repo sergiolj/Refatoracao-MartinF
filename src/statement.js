@@ -1,11 +1,24 @@
 function statement(invoice, plays) {
-  return renderPlaiText(invoice, plays);
+  const statementData = {};
+  statementData.customer = invoice.customer;
+  statementData.performances = invoice.performances.map(enrichPerformance);
+
+  function enrichPerformance(aPerformance) {
+    const result = Object.assign({}, aPerformance);
+    result.play = getPlayFrom(aPerformance);
+    return result;
+  }
+  function getPlayFrom(aPerformance) {
+    return plays[aPerformance.playID];
+  }
+  return renderPlaiText(statementData, plays);
 }
-function renderPlaiText(invoice, plays) {
+
+function renderPlaiText(data, plays) {
   let result = addInvoiceHead();
   totalAmount();
 
-  for (let aPerformance of invoice.performances) {
+  for (let aPerformance of data.performances) {
     let thisAmount = calculateAmountForEach(aPerformance);
     addPerformanceToInvoice(aPerformance, thisAmount);
   }
@@ -14,12 +27,12 @@ function renderPlaiText(invoice, plays) {
   return result;
 
   function addInvoiceHead() {
-    return `Statement for ${invoice.customer}\n`;
+    return `Statement for ${data.customer}\n`;
   }
 
   function totalAmount() {
     let totalAmount = 0;
-    for (let aPerformance of invoice.performances) {
+    for (let aPerformance of data.performances) {
       totalAmount += calculateAmountForEach(aPerformance);
     }
     return totalAmount;
@@ -65,7 +78,7 @@ function renderPlaiText(invoice, plays) {
 
   function volumeCredits() {
     let volumeCredits = 0;
-    for (let aPerformance of invoice.performances) {
+    for (let aPerformance of data.performances) {
       volumeCredits += calculateCreditsForBenefitsProgram(aPerformance);
     }
     return volumeCredits;
